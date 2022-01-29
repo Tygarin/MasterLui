@@ -29,6 +29,7 @@ const animals = [
 ]
 const posArr = []
 let currentElem = {}
+let counter = 0
 
 const startGame = () => {
     for (i = 0; posArr.length < cubeCount; i++) {
@@ -62,15 +63,14 @@ const startGame = () => {
         currentElem = posArr.find(elem => (
             ((mouse.x - elem.x) < cubeSize) && ((mouse.x - elem.x) > 0)
             && ((mouse.y - elem.y) < cubeSize) && (mouse.y - elem.y) > 0))
-        draw = true;
-        context.beginPath()
-        context.strokeStyle = currentElem.color
-        context.moveTo(mouse.x, mouse.y)
+            draw = true;
+            context.beginPath()
+            context.strokeStyle = currentElem.color
+            context.moveTo(mouse.x, mouse.y)
     });
 
     canvas.addEventListener("mousemove", function (e) {
         if (draw == true) {
-            
             mouse.x = e.pageX - this.offsetLeft;
             mouse.y = e.pageY - this.offsetTop;
             context.lineTo(mouse.x, mouse.y);
@@ -80,13 +80,20 @@ const startGame = () => {
     });
 
     canvas.addEventListener("mouseup", function (e) {
-
         mouse.x = e.pageX - this.offsetLeft;
         mouse.y = e.pageY - this.offsetTop;
+        let nextElem = posArr.find(elem => (
+            ((mouse.x - elem.x) < cubeSize) && ((mouse.x - elem.x) > 0)
+            && ((mouse.y - elem.y) < cubeSize) && (mouse.y - elem.y) > 0))
+
         context.lineTo(mouse.x, mouse.y);
         context.stroke();
         context.closePath();
         draw = false;
+        if (currentElem.animal === nextElem.animal && currentElem.x !== nextElem.x) {
+            counter++
+            counter === animals.length && alert('you win')
+        }
     });
 }
 
