@@ -7,6 +7,7 @@ const h = canvas.height
 const modal = document.getElementById('modal')
 const modalText = document.getElementById('modalText')
 const closeModal = document.getElementById('closeModal')
+const winGames = document.getElementById('winGames')
 
 
 var img = new Image()
@@ -24,14 +25,14 @@ const animals = [
     },
     {
         name: 'Волк',
-        color: 'black',
+        color: 'yellow',
         isReady: false,
         path: [],
         power: 1,
     },
     {
         name: 'Птеродактель',
-        color: 'blue',
+        color: 'orange',
         isReady: false,
         path: [],
         power: 2,
@@ -40,6 +41,7 @@ const animals = [
 const cubeCount = 2 * animals.length
 let posArr = []
 let currentElem = {}
+let winGamesCount = 0
 
 const restartGame = () => {
     animals.map(e => {
@@ -104,7 +106,7 @@ function mouseDown(e) {
     context.moveTo(mouse.x, mouse.y)
 }
 
-function mouseMove (e) {
+function mouseMove(e) {
     if (draw == true) {
         mouse.x = e.pageX - this.offsetLeft;
         mouse.y = e.pageY - this.offsetTop;
@@ -137,7 +139,7 @@ function mouseMove (e) {
     }
 }
 
-function mouseUp (e) {
+function mouseUp(e) {
     mouse.x = e.pageX - this.offsetLeft;
     mouse.y = e.pageY - this.offsetTop;
     let nextElem = posArr.find(elem => (
@@ -152,7 +154,11 @@ function mouseUp (e) {
         const animal = animals.find(e => e.name === currentElem.animal)
         if (animal) {
             animal.isReady = true
-            animals.every(e => e.isReady) && openModal('Победа!!! :))')
+            if (animals.every(e => e.isReady)) {
+                openModal('Победа!!! :))')
+                winGamesCount ++
+                winGames.innerText = winGamesCount
+            }
             score.innerText = animals.filter(e => e.isReady).length + '/' + animals.length
         }
     } else openModal('не делайте так')

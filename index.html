@@ -10,13 +10,21 @@
 </head>
 
 <body>
-    <h1 style="text-align: center;">Лесные тропы</h1>
+    <h1 style="text-align: center; font-size: 36px;">Лесные тропы</h1>
     <div style="display: flex; justify-content: center;">
         <canvas id="canvas" height="600" width="1020px"></canvas>
     </div>
     <div style="text-align: center;">
-        <h3>Счет:</h3>
-        <div id="score">0</div>
+        <div style="display: flex; justify-content: center;">
+            <div style="margin-right: 20px;">
+                <h3>Счет:</h3>
+                <div id="score">0</div>
+            </div>
+            <div>
+                <h3>Победных игр:</h3>
+                <div id="winGames">0</div>
+            </div>
+        </div>
         <br />
         <input id="restart" type="button" value="Restart">
     </div>
