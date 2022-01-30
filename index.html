@@ -6,19 +6,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Мастер Луи</title>
+    <title>Лесные тропы</title>
 </head>
 
 <body>
-    <h1 style="text-align: center;">Мастер Луи</h1>
+    <h1 style="text-align: center;">Лесные тропы</h1>
     <div style="display: flex; justify-content: center;">
-        <canvas id="canvas" height="600" width="1020px" style="border: 2px dashed black;"></canvas>
+        <canvas id="canvas" height="600" width="1020px"></canvas>
     </div>
     <div style="text-align: center;">
         <h3>Счет:</h3>
         <div id="score">0</div>
         <br />
         <input id="restart" type="button" value="Restart">
+    </div>
+    <div class="modal" id="modal">
+        <div class="insideModal" id="insideModal">
+            <div class="closeModal" id="closeModal">×</div>
+            <div class="modalText" id="modalText"></div>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>
