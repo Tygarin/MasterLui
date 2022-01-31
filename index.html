@@ -15,7 +15,7 @@
         <canvas id="canvas" height="600" width="1020px"></canvas>
     </div>
     <div style="text-align: center;">
-        <div style="display: flex; justify-content: center;">
+        <div style="display: flex; justify-content: center; -webkit-text-stroke: .5px black; font-size: 20px; font-weight: 700;">
             <div style="margin-right: 20px;">
                 <h3>Счет:</h3>
                 <div id="score">0</div>
@@ -29,9 +29,9 @@
         <input id="restart" type="button" value="Restart">
     </div>
     <div class="modal" id="modal">
-        <div class="insideModal" id="insideModal">
+        <div class="insideModal success" id="insideModal">
             <div class="closeModal" id="closeModal">×</div>
-            <div class="modalText" id="modalText"></div>
+            <div class="modalText" id="modalText">Победа!</div>
         </div>
     </div>
     <script src="main.js"></script>
