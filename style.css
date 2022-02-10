@@ -59,6 +59,18 @@ html {
     cursor: pointer;
 }
 
+#startGame {
+  width: 200px;
+  height: 50px;
+  border: none;
+  border-radius: 20px;
+  font-family: "Muller";
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .insideModal {
     z-index: 100;
     width: 25vw;
