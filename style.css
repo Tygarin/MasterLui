@@ -40,6 +40,10 @@ html {
     border-radius: 25px;
 }
 
+#nameInput {
+  display: none;
+}
+
 .modal {
     position: fixed;
     top: 0;

@@ -11,6 +11,11 @@ const closeModal = document.getElementById('closeModal')
 const insideModal = document.getElementById('insideModal')
 const winGames = document.getElementById('winGames')
 const startBtn = document.getElementById('startGame')
+const nameInput = document.getElementById('nameInput')
+const saveName = document.getElementById('saveName')
+const nameInp = document.getElementById('nameInp')
+const table = document.getElementById('table')
+const lidersList = document.getElementById('lidersList')
 
 var menuImg = new Image()
 menuImg.src = 'img/menu.jpg'
@@ -19,6 +24,7 @@ img.src = 'img/forest.jpg'
 var mouse = { x: 0, y: 0 };
 const cubeSize = 150
 let winGamesCount = 0
+const liders = JSON.parse(localStorage.getItem('liders')) || []
 
 function playGame() {
     var draw = false;
@@ -53,6 +59,8 @@ function playGame() {
     let currentElem = {}
 
     const restartGame = () => {
+        if (nameInput.style.display = 'block') nameInput.style.display = 'none'
+        if (table.style.display = 'block') table.style.display = 'none'
         animals.map(e => {
             e.isReady = false
             e.path = []
@@ -74,18 +82,50 @@ function playGame() {
                 modal.style.display = 'none'
                 restartGame()
             }
+        } else if (type === 'attention') {
+            insideModal.classList.remove('success')
+            insideModal.classList.add('warning')
+            closeModal.onclick = function () {
+                modal.style.display = 'none'
+                restartGame()
+            }
         } else {
             insideModal.classList.remove('success')
             insideModal.classList.add('warning')
 
             closeModal.onclick = function () {
                 modal.style.display = 'none'
-                printMenu()
                 canvas.removeEventListener("mousemove", mouseMove);
                 canvas.removeEventListener("mousedown", mouseDown);
                 canvas.removeEventListener("mouseup", mouseUp);
+                printMenu()
+                checkPlayer()
             }
         }
+    }
+
+    const checkPlayer = () => {
+        const playerName = localStorage.getItem('playerName')
+        if (!playerName) {
+            nameInput.style.display = 'block'
+            saveName.onclick = function () {
+                localStorage.setItem('playerName', nameInp.value)
+                liders.push({
+                    name: nameInp.value,
+                    score: winGamesCount
+                })
+                checkPlayer()
+            }
+        } else {
+            localStorage.setItem('liders', JSON.stringify(liders))
+            printTable()
+        }
+    }
+
+    const printTable = () => {
+        if (nameInput.style.display = 'block') nameInput.style.display = 'none'
+        table.style.display = 'block'
+        lidersList.innerHTML = liders.map(e => `<h3>${e.name} : ${e.score}</h3>`)
     }
 
     const endGame = (text) => {
@@ -217,7 +257,7 @@ function playGame() {
             }
         } else if (currentElem && !nextElem) {
             openModal('животное ' + currentElem.animal + ' заблудилось и его съели более сильные дикие звери')
-        } else openModal('не делайте так')
+        } else openModal('не делайте так', 'attention')
     }
 
     restart.onclick = restartGame

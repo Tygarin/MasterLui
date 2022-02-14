@@ -11,12 +11,26 @@
 
 <body>
     <h1 style="text-align: center; font-size: 36px;">Лесные тропы</h1>
-    <div style="display: flex; justify-content: center;">
+    <div style="display: flex; justify-content: center; overflow: hidden;">
         <canvas id="canvas" height="600" width="1020px"></canvas>
+        <div id="nameInput" style="position: absolute; top: 40%;">
+            Введите имя:
+            <input id="nameInp" type="text">
+            <input id="saveName" type="button" style="cursor: pointer;" value="сохранить">
+        </div>
+        <div id="table" style="display: none; position: absolute; top: 100px">
+            <h2>Таблица лидеров:</h2>
+            <div id="lidersList">
+                <!-- <h3>dan: 123</h3>
+                <h3>man: 123</h3>
+                <h3>ulya: 111</h3> -->
+            </div>
+        </div>
         <input type="button" id="startGame" value="Начать игру">
     </div>
     <div id="resB" style="text-align: center; display: none;">
-        <div style="display: flex; justify-content: center; -webkit-text-stroke: .5px black; font-size: 20px; font-weight: 700;">
+        <div
+            style="display: flex; justify-content: center; -webkit-text-stroke: .5px black; font-size: 20px; font-weight: 700;">
             <div style="margin-right: 20px;">
                 <h3>Счет:</h3>
                 <div id="score">0</div>
