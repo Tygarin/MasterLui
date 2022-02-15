@@ -16,6 +16,8 @@ const saveName = document.getElementById('saveName')
 const nameInp = document.getElementById('nameInp')
 const table = document.getElementById('table')
 const lidersList = document.getElementById('lidersList')
+const changePlayer = document.getElementById('changePlayer')
+const clearTable = document.getElementById('clearTable')
 
 var menuImg = new Image()
 menuImg.src = 'img/menu.jpg'
@@ -24,7 +26,8 @@ img.src = 'img/forest.jpg'
 var mouse = { x: 0, y: 0 };
 const cubeSize = 150
 let winGamesCount = 0
-const liders = JSON.parse(localStorage.getItem('liders')) || []
+let liders = JSON.parse(localStorage.getItem('liders')) || []
+var audio = new Audio()
 
 function playGame() {
     var draw = false;
@@ -35,7 +38,8 @@ function playGame() {
             isReady: false,
             path: [],
             power: 0,
-            img: 'img/olen.jpg'
+            img: 'img/olen.jpg',
+            sound: 'sound/olen.mp3'
         },
         {
             name: 'Волк',
@@ -43,7 +47,8 @@ function playGame() {
             isReady: false,
             path: [],
             power: 1,
-            img: 'img/volk.jpg'
+            img: 'img/volk.jpg',
+            sound: 'sound/volk.mp3'
         },
         {
             name: 'Ти рекс',
@@ -51,7 +56,8 @@ function playGame() {
             isReady: false,
             path: [],
             power: 2,
-            img: 'img/trex.jpg'
+            img: 'img/trex.jpg',
+            sound: 'sound/trex.mp3'
         },
     ]
     const cubeCount = 2 * animals.length
@@ -105,6 +111,7 @@ function playGame() {
     }
 
     const checkPlayer = () => {
+        document.body.style.cursor = 'auto';
         const playerName = localStorage.getItem('playerName')
         if (!playerName) {
             nameInput.style.display = 'block'
@@ -117,20 +124,40 @@ function playGame() {
                 checkPlayer()
             }
         } else {
+            liders.map(e => { if (e.name === playerName && e.score < winGamesCount) e.score = winGamesCount })
+            liders.sort(function (a, b) {
+                return b.score - a.score
+            })
             localStorage.setItem('liders', JSON.stringify(liders))
             printTable()
+            changePlayer.onclick = function () {
+                localStorage.removeItem('playerName')
+                restartGame()
+            }
+            clearTable.onclick = function () {
+                localStorage.removeItem('liders')
+                localStorage.removeItem('playerName')
+                liders = []
+                printTable()
+            }
+            winGamesCount = 0
+            winGames.innerHTML = winGamesCount
         }
     }
 
     const printTable = () => {
         if (nameInput.style.display = 'block') nameInput.style.display = 'none'
         table.style.display = 'block'
-        lidersList.innerHTML = liders.map(e => `<h3>${e.name} : ${e.score}</h3>`)
+        lidersList.innerHTML = ''
+        liders.map(e => {
+            let h3 = document.createElement('h3')
+            h3.innerText = e.name + ' : ' + e.score
+            lidersList.appendChild(h3)
+        })
     }
 
     const endGame = (text) => {
         draw = false;
-        winGamesCount = 0
         winGames.innerText = winGamesCount
         openModal(text)
     }
@@ -156,6 +183,7 @@ function playGame() {
             e.animal = animals[i].name
             e.power = animals[i].power
             e.img = animals[i].img
+            e.sound = animals[i].sound
         })
 
         context.drawImage(img, 0, 0, w, h);
@@ -183,6 +211,8 @@ function playGame() {
             ((mouse.x - elem.x) < cubeSize) && ((mouse.x - elem.x) > 0)
             && ((mouse.y - elem.y) < cubeSize) && (mouse.y - elem.y) > 0))
         draw = true;
+        audio.src = currentElem.sound
+        audio.play()
         context.beginPath()
         context.strokeStyle = currentElem && currentElem.color
         context.moveTo(mouse.x, mouse.y)
@@ -266,10 +296,6 @@ function playGame() {
 
 const printMenu = () => {
     context.drawImage(menuImg, 0, 0, w, h);
-    // restart.onclick = () => {
-    //     winGamesCount = 0
-    //     restartGame()
-    // }
 }
 
 startBtn.onclick = function () {

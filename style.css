@@ -75,6 +75,11 @@ html {
   transform: translateY(-50%);
 }
 
+#lidersList h3 {
+    font-size: 21px;
+    text-transform: capitalize;
+}
+
 .insideModal {
     z-index: 100;
     width: 25vw;
